@@ -39,3 +39,15 @@ Adds test rooms and users, safe to run more than once. For local development onl
 |---|---|---|
 | admin@example.com | admin123 | admin |
 | user@example.com | user123 | user |
+
+## Docker
+
+Run from the repo root, with the db started from `docker compose` (see the root README):
+
+```
+docker build -t campus-booking-backend backend
+docker run --rm --network campus-booking_default --env-file .env -e POSTGRES_HOST=db campus-booking-backend alembic upgrade head
+docker run --rm --network campus-booking_default --env-file .env -e POSTGRES_HOST=db -p 8000:8000 campus-booking-backend
+```
+
+The container doesn't run migrations on start, so run them after every schema change. The network name comes from the repo folder name.
