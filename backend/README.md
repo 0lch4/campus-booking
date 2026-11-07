@@ -13,3 +13,6 @@ uvicorn app.main:app --reload
 
 - API: http://localhost:8000/api
 - Docs: http://localhost:8000/api/docs
+- Health: http://localhost:8000/api/health, returns 503 if the db is unavailable
+
+Start the db first (see the root README). When running `uvicorn` outside Docker, set `POSTGRES_HOST=localhost` in `.env`, because `db` only resolves inside the Docker network.
