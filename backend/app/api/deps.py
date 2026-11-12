@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.security import decode_access_token
 from app.db.session import SessionLocal
-from app.models import User
+from app.models import User, UserRole
 
 bearer = HTTPBearer(auto_error=False)
 
@@ -36,3 +36,12 @@ async def get_current_user(
 
 
 CurrentUser = Annotated[User, Depends(get_current_user)]
+
+
+async def require_admin(user: CurrentUser) -> User:
+    if user.role != UserRole.ADMIN:
+        raise HTTPException(status.HTTP_403_FORBIDDEN, "Admin role required")
+    return user
+
+
+AdminUser = Annotated[User, Depends(require_admin)]
