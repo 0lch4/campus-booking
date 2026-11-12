@@ -17,6 +17,12 @@ uvicorn app.main:app --reload
 
 Start the db first (see the root README). When running `uvicorn` outside Docker, set `POSTGRES_HOST=localhost` in `.env`, because `db` only resolves inside the Docker network.
 
+## Auth
+
+All endpoints except `/api/health`, `/api/auth/register` and `/api/auth/login` need a token. Get it from `POST /api/auth/login` and send it as `Authorization: Bearer <token>`. In the docs use the **Authorize** button and paste only the token.
+
+Room changes (`POST` / `PATCH` / `DELETE /api/rooms`) need the `admin` role, other users get 403. Registration always creates a `user`, admins come from the seed.
+
 ## Migrations
 
 ```
